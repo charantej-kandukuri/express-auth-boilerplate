@@ -6,14 +6,12 @@ The immediate goal is to analyze the existing codebase to understand its current
 
 ## 2. Next Steps
 
-1.  **Code Review:** Read through the key files related to authentication, user management, and routing to understand the current implementation.
-2.  **Identify Authorization Gaps:** Determine where and how to add role-based authorization.
-3.  **Plan Implementation:** Create a plan for adding the authorization middleware and updating the user model.
-4.  **Update `README.md`:** Revise the `README.md` to reflect the project's structure and setup instructions.
+1.  **Implement Authorization:** A new `authorization.middleware.ts` has been created and applied to `user.routes.ts` to restrict access to admin users.
+2.  **Update Documentation:** The `README.md` has been completely rewritten to be comprehensive and useful.
 
-## 3. Key Questions to Answer
+## 3. Next Steps & Potential Improvements
 
-- How is the `auth.middleware.ts` currently used?
-- What is the structure of the `user.model.ts`? Does it support roles?
-- How are routes protected?
-- What improvements can be made to the existing code?
+- **Refine `getUser` endpoint:** Modify the `getUser` controller and route to allow a regular user to fetch their own profile, while admins can still fetch any profile.
+- **Add more roles:** Consider if more granular roles are needed (e.g., `moderator`, `editor`).
+- **Input Validation:** Implement robust input validation for all API endpoints (e.g., using `zod` or `express-validator`).
+- **Testing:** Add a testing framework (like Jest or Mocha) and write unit and integration tests.

@@ -9,13 +9,13 @@
 
 ## 2. What's Left to Build
 
-- **Authorization:** A role-based authorization system needs to be implemented. This includes:
-  - Updating the user model to include roles.
-  - Creating an authorization middleware to check user roles.
-  - Protecting specific routes based on user roles.
-- **Code Improvements:** Refactor the existing code for better readability, performance, and adherence to best practices.
-- **Documentation:** The `README.md` and other documentation need to be updated.
+- **Authorization:** A role-based authorization system has been implemented.
+  - The user model already included roles.
+  - An authorization middleware has been created.
+  - User management routes are now protected and require admin privileges.
+- **Documentation:** The `README.md` has been updated with detailed instructions and API documentation.
 
 ## 3. Known Issues
 
-- None identified yet. The analysis phase will uncover any potential issues.
+- The `GET /:id` route in `user.routes.ts` is restricted to admins. It could be improved to allow a user to get their own profile.
+- The `user.controller.ts` might need adjustments to handle the new authorization rules gracefully.

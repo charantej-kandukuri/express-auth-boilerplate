@@ -5,14 +5,18 @@ import {
   getUser,
   updateUser,
   deleteUser,
-} from "../controllers/user.controller"
+} from "../controllers/user.controller";
+import { auth } from "../middlewares/auth.middleware";
+import { authorize } from "../middlewares/authorization.middleware";
 
 const router = Router();
 
-router.post("/", createUser);
-router.get("/", getUsers);
-router.get("/:id", getUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.use(auth);
+
+router.post("/", authorize(["admin"]), createUser);
+router.get("/", authorize(["admin"]), getUsers);
+router.get("/:id", authorize(["admin"]), getUser);
+router.put("/:id", authorize(["admin"]), updateUser);
+router.delete("/:id", authorize(["admin"]), deleteUser);
 
 export default router;
