@@ -42,15 +42,6 @@ export const loginUser = async (email: string, password: string) => {
     { expiresIn: "15m" },
   );
 
-  // Debugging line to verify the access token immediately after creation
-  jwt.verify(accessToken, process.env.JWT_SECRET as string, (err, decoded) => {
-    if (err) {
-      console.error("Error verifying access token:", err);
-    } else {
-      console.log("Access token decoded:", decoded);
-    }
-  });
-
   const refreshToken = jwt.sign(
     { userId: user._id, role: user.role },
     process.env.JWT_REFRESH_SECRET as string,

@@ -16,8 +16,6 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
       role: "user" | "admin";
     };
 
-    console.log("Decoded JWT:", decoded); // Debugging line
-
     req.user = decoded;
 
     next();
