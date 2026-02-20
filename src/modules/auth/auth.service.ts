@@ -27,13 +27,13 @@ export const loginUser = async (email: string, password: string) => {
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
-    throw new AppError("Invalid credentials", 400);
+    throw new AppError("Invalid credentials", 401);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new Error("Invalid credentials");
+    throw new AppError("Invalid credentials", 401);
   }
 
   const accessToken = jwt.sign(
@@ -53,7 +53,9 @@ export const loginUser = async (email: string, password: string) => {
   user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
 
-  return { accessToken, refreshToken };
+  const data = { userId: user._id, role: user.role };
+
+  return { accessToken, refreshToken, data };
 };
 
 export const logoutUser = async (userId: string) => {

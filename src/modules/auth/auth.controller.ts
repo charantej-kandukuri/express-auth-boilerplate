@@ -24,7 +24,11 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const { accessToken, refreshToken } = await loginUser(email, password);
+  const {
+    accessToken,
+    refreshToken,
+    data: user,
+  } = await loginUser(email, password);
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
@@ -40,7 +44,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  sendSuccess(res, "Login Successful");
+  sendSuccess(res, "Login Successful", user);
 });
 
 export const logout = async (req: Request, res: Response) => {
@@ -60,7 +64,7 @@ export const logout = async (req: Request, res: Response) => {
 export const refresh = async (req: Request, res: Response) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
-    throw new AppError("No refresh token provided", 400);
+    throw new AppError("No refresh token provided", 401);
   }
 
   const decoded = jwt.verify(
@@ -78,7 +82,7 @@ export const refresh = async (req: Request, res: Response) => {
 
   // create new accessToken
   const accessToken = jwt.sign(
-    { userId: decoded.userId },
+    { userId: decoded.userId, role: user.role },
     process.env.JWT_SECRET as string,
     { expiresIn: "15m" },
   );
